@@ -8,7 +8,7 @@ sys.path.append("..") #carpeta root
 
 #programa main
 bandera = True
-menu = [['Acciones','Opciones'],['Añadir Contacto','1'],['Mostrar Contacto','2'],
+menu = [['Acciones','Opciones'],['Añadir Contacto','1'],['Buscar Contacto','2'],
         ['Eliminar Contacto','3'],['Actualizar Contacto','4'],['Exportar Datos','5'],['Salir',6]]
 
 while bandera:
