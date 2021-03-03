@@ -17,7 +17,7 @@ class Contacto(dataBase):
     def busca_contacto(self, *args):
         cur = self.con.cursor()
         if args[1] == None:
-            sql = f"""SELECT contactos.nombre,contactos.numero,tipo_tel.tipo,grupo.nombre,
+            sql = f"""SELECT contactos.nombre,grupo.nombre,tipo_tel.tipo,contactos.numero,
             contactos.correo,contactos.direccion
             FROM contactos 
             INNER JOIN tipo_tel ON tipo_tel.id=contactos.tipo_t
@@ -25,7 +25,7 @@ class Contacto(dataBase):
             WHERE contactos.nombre LIKE '%{args[0]}%' 
             AND contactos.correo LIKE '%{args[2]}%' AND contactos.direccion LIKE '%{args[3]}%';"""
         else:
-            sql = f"""SELECT contactos.nombre,contactos.numero,tipo_tel.tipo,grupo.nombre,
+            sql = f"""SELECT contactos.nombre,grupo.nombre,tipo_tel.tipo,contactos.numero,
             contactos.correo,contactos.direccion
             FROM contactos 
             INNER JOIN tipo_tel ON tipo_tel.id=contactos.tipo_t
@@ -37,8 +37,9 @@ class Contacto(dataBase):
 
     def todos_los_contactos(self):
         cur = self.con.cursor()
-        sql = """SELECT contactos.nombre,tipo_tel.tipo,contactos.numero,contactos.correo,contactos.direccion,
-         grupo.nombre FROM contactos
+        sql = """SELECT contactos.nombre,grupo.nombre,tipo_tel.tipo,contactos.numero,
+         contactos.correo,contactos.direccion
+         FROM contactos
          INNER JOIN grupo ON grupo.id=contactos.id_grupo
          INNER JOIN tipo_tel ON tipo_tel.id=contactos.tipo_t;"""
         cur.execute(sql)
@@ -54,10 +55,19 @@ class Contacto(dataBase):
         cur.execute(sql)
         self.con.commit()
         
-    def atualiza_contacto(self, *args):
+    def actualiza_contacto(self, datos):
         cur = self.con.cursor()
-        sql = f"UPDATE contactos SET nombre='{args[0]}' WHERE id="
+        sql = f"""UPDATE contactos SET nombre='{datos[1]}',id_grupo={datos[2]},
+        tipo_t={datos[3]},numero={datos[4]},correo='{datos[5]}',direccion='{datos[6]}'
+        WHERE id={datos[0]};"""
+        cur.execute(sql)
+        self.con.commit()
 
+    def busca_actual(self, nombre, tel):
+        cur = self.con.cursor()
+        sql = f"""SELECT * FROM contactos 
+        WHERE nombre='{nombre}' AND numero={tel};"""
+        cur.execute(sql)
+        return cur.fetchone()
 
 #ALTER SEQUENCE contactos_id_seq RESTART WITH 0
-
