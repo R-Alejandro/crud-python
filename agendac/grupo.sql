@@ -12,15 +12,8 @@ CREATE TABLE contactos(
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL,
     id_grupo INT DEFAULT 0 REFERENCES grupo (id) ON DELETE CASCADE ON UPDATE CASCADE,
-    correo VARCHAR(50) DEFAULT 'no',
-    direccion VARCHAR(70) DEFAULT 'no'
-);
-
-CREATE TABLE telefono(
-    id SERIAL PRIMARY KEY,
+    tipo_t INT DEFAULT 300 REFERENCES tipo_tel (id) ON DELETE CASCADE ON UPDATE CASCADE,
     numero INT NOT NULL,
-    tipo INT DEFAULT 300 REFERENCES tipo_tel (id) ON DELETE CASCADE ON UPDATE CASCADE,
-    id_contacto INT NOT NULL REFERENCES contactos (id) 
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
+    correo VARCHAR(50) DEFAULT 'no',
+    direccion VARCHAR(60) DEFAULT 'no'
 );
