@@ -35,15 +35,20 @@ class controlGeneral(controlBase):
         print("Usuario Registrado con exito\n\n")
     
     def buscar_contacto(self):
-        print("Ingrese datos a buscar del usuario\n")
+        print("Ingrese datos a buscar del usuario\nPuede saltar valores\n")
         nombre = input("Nombre: ")
         numero = input("Numero: ")
+        if len(numero) == 0:
+            numero = None
         correo = input("Correo: ")
         direcc = input("Direccion: ")
         resultado = self.carga_modelo().busca_contacto(nombre, numero, correo, direcc)
-        for i in resultado:
-            print(i)
-        print("\n")
+        if len(resultado) != 0:
+            for i in resultado:
+                print(i)
+        else:
+            print("\nContacto no encontrado!!!")
+        print()
     
     def eliminar(self):
         print("Ingrese el usuario a eliminar\n")
@@ -55,7 +60,17 @@ class controlGeneral(controlBase):
             self.carga_modelo().elimina_contacto(nombre, numero)
             print("Usuario Eliminado")
         else:
-            print("operacion cancelada")
+            print("Operacion cancelada")
 
     def actualizar(self):
-        pass
+        print("Editar usuario\n")
+        nombre = input("Nombre: ")
+        numero = input("Numero: ")
+        resul = self.carga_modelo().busca_contacto(nombre, numero, '','')
+        var = input(f"Actualizar el contacto: {resul} Y/N\n -> ")
+        if var == 'Y':
+            
+            self.carga_modelo().actualiza_contacto()
+            print("Usuario Actualizado")
+        else:
+            print("Operacion cancelada")

@@ -16,8 +16,22 @@ class Contacto(dataBase):
 
     def busca_contacto(self, *args):
         cur = self.con.cursor()
-        sql = f"""SELECT nombre FROM contactos WHERE nombre LIKE '%{args[0]}%' 
-         AND correo LIKE '%{args[2]}%' AND direccion LIKE '%{args[3]}%';"""
+        if args[1] == None:
+            sql = f"""SELECT contactos.nombre,contactos.numero,tipo_tel.tipo,grupo.nombre,
+            contactos.correo,contactos.direccion
+            FROM contactos 
+            INNER JOIN tipo_tel ON tipo_tel.id=contactos.tipo_t
+            INNER JOIN grupo ON grupo.id=contactos.id_grupo
+            WHERE contactos.nombre LIKE '%{args[0]}%' 
+            AND contactos.correo LIKE '%{args[2]}%' AND contactos.direccion LIKE '%{args[3]}%';"""
+        else:
+            sql = f"""SELECT contactos.nombre,contactos.numero,tipo_tel.tipo,grupo.nombre,
+            contactos.correo,contactos.direccion
+            FROM contactos 
+            INNER JOIN tipo_tel ON tipo_tel.id=contactos.tipo_t
+            INNER JOIN grupo ON grupo.id=contactos.id_grupo
+            WHERE contactos.nombre LIKE '%{args[0]}%' 
+            AND contactos.numero={args[1]} AND contactos.correo LIKE '%{args[2]}%' AND contactos.direccion LIKE '%{args[3]}%';"""
         cur.execute(sql)
         return cur.fetchall()
 
