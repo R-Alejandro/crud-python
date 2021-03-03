@@ -10,13 +10,17 @@ class Contacto(dataBase):
         data = (args[0],args[1],args[2],args[3],args[4],args[5])
         cur.execute(sql, data)
         self.con.commit()
+        #ojo esto puede dar problemas
+        cur.close()
+        self.con.close()
 
-    def busca_contacto(self, nombre, tel=None):
+    def busca_contacto(self, *args):
         cur = self.con.cursor()
-        sql = f"SELECT * FROM contactos WHERE nombre LIKE '%{nombre}%';"
+        sql = f"""SELECT nombre FROM contactos WHERE nombre LIKE '%{args[0]}%' 
+         AND correo LIKE '%{args[2]}%' AND direccion LIKE '%{args[3]}%';"""
         cur.execute(sql)
-        res = cur.fetchone()
-        return res
+        return cur.fetchall()
+
     def todos_los_contactos(self):
         cur = self.con.cursor()
         sql = """SELECT contactos.nombre,tipo_tel.tipo,contactos.numero,contactos.correo,contactos.direccion,
@@ -30,9 +34,9 @@ class Contacto(dataBase):
             datos.append(i)
         return datos
 
-    def elimina_contacto(self, nombre, tel=None):
+    def elimina_contacto(self, nombre, tel):
         cur = self.con.cursor()
-        sql = f"DELETE FROM contactos WHERE nombre='{nombre}';"
+        sql = f"DELETE FROM contactos WHERE nombre='{nombre}' AND numero={tel};"
         cur.execute(sql)
         self.con.commit()
         
@@ -42,5 +46,4 @@ class Contacto(dataBase):
 
 
 #ALTER SEQUENCE contactos_id_seq RESTART WITH 0
-#obj.elimina_contacto('san',1234456)
-#obj.registra_contacto("olo",3,100,454646545,'dfd','dfdf')
+

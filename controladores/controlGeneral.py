@@ -9,8 +9,7 @@ class controlGeneral(controlBase):
         nombre = input("Ingrese el nombre: ")
         grupo = input("Desea añadir un grupo? Y/N: ")
         if grupo == 'Y':
-            grupo = int(input("""[1 -> familiar]\n
-            [2 -> amigo]\n[3 -> trabajo]\n -> """))
+            grupo = int(input("""[1 -> familiar]\n[2 -> amigo]\n[3 -> trabajo]\n -> """))
             if grupo > 3 or grupo < 1:
                 grupo = 0
         else:
@@ -33,5 +32,30 @@ class controlGeneral(controlBase):
             direc = 'no'
         self.carga_modelo().registra_contacto(nombre,grupo,tipo_tel,numero,correo,direc)
 
-        print("Usuario Registrado con exito")
+        print("Usuario Registrado con exito\n\n")
+    
+    def buscar_contacto(self):
+        print("Ingrese datos a buscar del usuario\n")
+        nombre = input("Nombre: ")
+        numero = input("Numero: ")
+        correo = input("Correo: ")
+        direcc = input("Direccion: ")
+        resultado = self.carga_modelo().busca_contacto(nombre, numero, correo, direcc)
+        for i in resultado:
+            print(i)
+        print("\n")
+    
+    def eliminar(self):
+        print("Ingrese el usuario a eliminar\n")
+        nombre = input("Nombre: ")
+        numero = input("Numero: ")
+        resul = self.carga_modelo().busca_contacto(nombre, numero, '','')
+        var = input(f"Esta seguro de eliminar el contacto: {resul} Y/N\n -> ")
+        if var == 'Y':
+            self.carga_modelo().elimina_contacto(nombre, numero)
+            print("Usuario Eliminado")
+        else:
+            print("operacion cancelada")
 
+    def actualizar(self):
+        pass
