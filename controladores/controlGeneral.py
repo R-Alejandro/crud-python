@@ -20,7 +20,7 @@ class controlGeneral(controlBase):
             tipo_tel = int(input("[100 -> casa]\n[200 -> trabajo]\n[300 -> celular]\n-> "))
         else:
             tipo_tel = 300
-        numero = int(input("Ingrese numero del contaco: "))
+        numero = input("Ingrese numero del contacto: ") #######
         correo = input("añadir correo? Y/N: ")
         if correo == 'Y':
             correo = input("-> ")
@@ -40,7 +40,7 @@ class controlGeneral(controlBase):
         nombre = input("Nombre: ")
         numero = input("Numero: ")
         if len(numero) == 0:
-            numero = None
+            numero = None  #######
         correo = input("Correo: ")
         direcc = input("Direccion: ")
         resultado = self.carga_modelo().busca_contacto(nombre, numero, correo, direcc)
@@ -79,7 +79,7 @@ class controlGeneral(controlBase):
         nombre = input("Nombre: ")
         numero = input("Numero: ")
         resul = self.carga_modelo().busca_actual(nombre, numero)
-        var = input(f"Actualizar el contacto: {resul} Y/N\n -> ")
+        var = input(f"Actualizar el contacto: {resul} ? Y/N\n -> ")
         datos = [resul[0],resul[1],resul[2],resul[3],resul[4],resul[5],resul[6]]
         while var == 'Y':
             sel = int(input("""Actualizar\n[1 -> nombre]\n[2 -> grupo]\n[3 -> tipo de telefono]
@@ -93,7 +93,7 @@ class controlGeneral(controlBase):
                 print("[100 -> casa]\n[200 -> trabajo]\n[300 -> celular]")
                 datos[3] = int(input("Nuevo Tipo de telefono: "))
             if sel == 4:
-                datos[4] = int(input("Nuevo Telefono: "))
+                datos[4] = input("Nuevo Telefono: ") ####
             if sel == 5:
                 datos[5] = input("Nuevo Correo: ")
             if sel == 6:

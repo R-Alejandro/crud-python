@@ -13,7 +13,7 @@ CREATE TABLE contactos(
     nombre VARCHAR(50) NOT NULL,
     id_grupo INT DEFAULT 0 REFERENCES grupo (id) ON DELETE CASCADE ON UPDATE CASCADE,
     tipo_t INT DEFAULT 300 REFERENCES tipo_tel (id) ON DELETE CASCADE ON UPDATE CASCADE,
-    numero INT NOT NULL,
+    numero VARCHAR(20) NOT NULL,
     correo VARCHAR(50) DEFAULT 'no',
     direccion VARCHAR(60) DEFAULT 'no'
 );
