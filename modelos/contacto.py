@@ -7,8 +7,8 @@ class Contacto(dataBase):
     def registra_contacto(self, *args):
         cur = self.con.cursor()
         sql = "INSERT INTO contactos (nombre,id_grupo,tipo_t,numero,correo,direccion) VALUES (%s, %s, %s, %s, %s, %s);"
-        data = (args[0],args[1],args[2],args[3],args[4],args[5])
-        cur.execute(sql, data)
+        datos = (args[0],args[1],args[2],args[3],args[4],args[5])
+        cur.execute(sql, datos)
         self.con.commit()
         #ojo esto puede dar problemas
         cur.close()
@@ -31,7 +31,8 @@ class Contacto(dataBase):
             INNER JOIN tipo_tel ON tipo_tel.id=contactos.tipo_t
             INNER JOIN grupo ON grupo.id=contactos.id_grupo
             WHERE contactos.nombre LIKE '%{args[0]}%' 
-            AND contactos.numero LIKE '%{args[1]}%' AND contactos.correo LIKE '%{args[2]}%' AND contactos.direccion LIKE '%{args[3]}%';"""
+            AND contactos.numero LIKE '%{args[1]}%' AND contactos.correo LIKE '%{args[2]}%'
+            AND contactos.direccion LIKE '%{args[3]}%';"""
         cur.execute(sql)
         return cur.fetchall()
 
@@ -43,11 +44,7 @@ class Contacto(dataBase):
          INNER JOIN grupo ON grupo.id=contactos.id_grupo
          INNER JOIN tipo_tel ON tipo_tel.id=contactos.tipo_t;"""
         cur.execute(sql)
-        res = cur.fetchall()
-        datos = []
-        for i in res:
-            datos.append(i)
-        return datos
+        return cur.fetchall()
 
     def elimina_contacto(self, nombre, tel):
         cur = self.con.cursor()

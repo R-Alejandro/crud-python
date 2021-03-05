@@ -36,7 +36,7 @@ class controlGeneral(controlBase):
         print("\nUsuario Registrado con exito\n")
     
     def buscar_contacto(self):
-        print("Ingrese datos a buscar del usuario\nPuede saltar valores\n")
+        print("Ingrese datos a buscar del contacto\nPuede saltar valores\n")
         nombre = input("Nombre: ")
         numero = input("Numero: ")
         if len(numero) == 0:
@@ -63,7 +63,7 @@ class controlGeneral(controlBase):
         print(tabulate(tabla,headers='firstrow',tablefmt='fancy_grid'),'\n')
 
     def eliminar(self):
-        print("Ingrese el usuario a eliminar\n")
+        print("Ingrese el contacto a eliminar\n")
         nombre = input("Nombre: ")
         numero = input("Numero: ")
         resul = self.carga_modelo().busca_contacto(nombre, numero, '','')
@@ -79,33 +79,36 @@ class controlGeneral(controlBase):
         nombre = input("Nombre: ")
         numero = input("Numero: ")
         resul = self.carga_modelo().busca_actual(nombre, numero)
-        var = input(f"Actualizar el contacto: {resul} ? Y/N\n -> ")
-        datos = [resul[0],resul[1],resul[2],resul[3],resul[4],resul[5],resul[6]]
-        while var == 'Y':
-            sel = int(input("""Actualizar\n[1 -> nombre]\n[2 -> grupo]\n[3 -> tipo de telefono]
-            \n[4 -> telefono]\n[5 -> correo]\n[6 -> direccion]\n --> """))
-            if sel == 1:
-                datos[1] = input("Nuevo Nombre: ")
-            if sel == 2:
-                print("[0 -> ninguno]\n[1 -> familiar]\n[2 -> amigo]\n[3 -> trabajo]")
-                datos[2] = int(input("Nuevo Grupo: "))
-            if sel == 3:
-                print("[100 -> casa]\n[200 -> trabajo]\n[300 -> celular]")
-                datos[3] = int(input("Nuevo Tipo de telefono: "))
-            if sel == 4:
-                datos[4] = input("Nuevo Telefono: ") ####
-            if sel == 5:
-                datos[5] = input("Nuevo Correo: ")
-            if sel == 6:
-                datos[6] = input("Nueva Direccion: ")
+        if resul != None:
+            var = input(f"Actualizar el contacto: {resul} ? Y/N\n -> ")
+            datos = [resul[0],resul[1],resul[2],resul[3],resul[4],resul[5],resul[6]]
+            while var == 'Y':
+                sel = int(input("""Actualizar\n[1 -> nombre]\n[2 -> grupo]\n[3 -> tipo de telefono]
+                \n[4 -> telefono]\n[5 -> correo]\n[6 -> direccion]\n --> """))
+                if sel == 1:
+                    datos[1] = input("Nuevo Nombre: ")
+                if sel == 2:
+                    print("[0 -> ninguno]\n[1 -> familiar]\n[2 -> amigo]\n[3 -> trabajo]")
+                    datos[2] = int(input("Nuevo Grupo: "))
+                if sel == 3:
+                    print("[100 -> casa]\n[200 -> trabajo]\n[300 -> celular]")
+                    datos[3] = int(input("Nuevo Tipo de telefono: "))
+                if sel == 4:
+                    datos[4] = input("Nuevo Telefono: ") ####
+                if sel == 5:
+                    datos[5] = input("Nuevo Correo: ")
+                if sel == 6:
+                    datos[6] = input("Nueva Direccion: ")
 
-            var = input(f"Seguir editando el contacto? Y/N\n -> ")
-            if var == 'N':
-                print(f"Nuevos Datos {datos}")
-                confirma = input("confirmar cambios? Y/N: ")
-                if confirma == 'Y':
-                    self.carga_modelo().actualiza_contacto(datos)
-                else:
-                    print("Operacion cancelada")
+                var = input(f"Seguir editando el contacto? Y/N\n -> ")
+                if var == 'N':
+                    print(f"Nuevos Datos {datos}")
+                    confirma = input("confirmar cambios? Y/N: ")
+                    if confirma == 'Y':
+                        self.carga_modelo().actualiza_contacto(datos)
+                    else:
+                        print("Operacion cancelada")
+            else:
+                print("Actualizacion Terminada")
         else:
-            print("Actualizacion Terminada")
+            print("El contacto no existe, asegurese que digito bien los datos\n")
